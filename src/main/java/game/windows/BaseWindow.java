@@ -1,9 +1,9 @@
 package game.windows;
 
 import core.GameRoot;
+import core.WindowQuad;
 import game.WindowManager;
-import game.utils.WindowQuad;
-import math.Vector2D;
+import toolbox.Vector2D;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLCapabilities;

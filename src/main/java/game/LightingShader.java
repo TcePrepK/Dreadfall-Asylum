@@ -1,6 +1,7 @@
 package game;
 
-import math.Vector2D;
+import game.utils.Player;
+import toolbox.Vector2D;
 import shaders.BaseShader;
 
 public class LightingShader extends BaseShader {
@@ -16,9 +17,12 @@ public class LightingShader extends BaseShader {
         loadUniform("resolution", resolution);
     }
 
+    public void attachPlayerLight() {
+        attachWatcher("lightPos", Player.position);
+        attachWatcher("lightDir", Player.lookingDirection);
+    }
+
     public void loadPlayer() {
-        loadUniform("lightPos", Player.position);
-        loadUniform("lightDir", Player.lightDirection);
         loadUniform("lightPower", Player.lightPower);
     }
 }

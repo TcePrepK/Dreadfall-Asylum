@@ -1,4 +1,4 @@
-package math;
+package toolbox;
 
 public class Vector2D {
     public float x;
@@ -50,6 +50,10 @@ public class Vector2D {
 
     public Vector2D normalize() {
         return div(length());
+    }
+
+    public Vector2DI toInt() {
+        return new Vector2DI((int) x, (int) y);
     }
 
     @Override

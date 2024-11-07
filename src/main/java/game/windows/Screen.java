@@ -1,6 +1,6 @@
 package game.windows;
 
-import math.Vector2D;
+import toolbox.Vector2D;
 
 import java.awt.*;
 

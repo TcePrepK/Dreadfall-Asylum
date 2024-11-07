@@ -1,6 +1,6 @@
 package shaders;
 
-import math.Vector2D;
+import toolbox.Vector2D;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
 import toolbox.Logger;

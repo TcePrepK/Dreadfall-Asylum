@@ -1,7 +1,4 @@
-package game.utils;
-
-import core.Loader;
-import core.RawModel;
+package core;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
 import static org.lwjgl.opengl.GL11.glDrawArrays;

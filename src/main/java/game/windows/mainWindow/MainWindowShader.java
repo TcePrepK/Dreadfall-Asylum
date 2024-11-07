@@ -1,7 +1,7 @@
 package game.windows.mainWindow;
 
 import game.windows.BaseWindowShader;
-import math.Vector2D;
+import toolbox.Vector2D;
 
 public class MainWindowShader extends BaseWindowShader {
     public MainWindowShader() {

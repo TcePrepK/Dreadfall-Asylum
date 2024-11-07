@@ -5,7 +5,7 @@ import core.GameRoot;
 import game.LightingShader;
 import game.windows.BaseWindow;
 import game.windows.Screen;
-import math.Vector2D;
+import toolbox.Vector2D;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import toolbox.Keyboard;
@@ -34,7 +34,10 @@ public class MouseWindow extends BaseWindow {
 
         Keyboard.keyPressed.add(this::closeWindow, Keyboard.ESCAPE);
 
-        windowShader.attachWatcher("resolution", size);
+        { // Attachments
+            windowShader.attachWatcher("resolution", size);
+            lightingShader.attachPlayerLight();
+        }
     }
 
     @Override

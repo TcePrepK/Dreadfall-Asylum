@@ -1,7 +1,5 @@
 package toolbox;
 
-import math.Vector2D;
-
 import java.awt.*;
 
 public class Mouse {
