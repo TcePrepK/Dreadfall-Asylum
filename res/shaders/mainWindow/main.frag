@@ -73,11 +73,9 @@ void main() {
     vec2 size = (resolution / 2.0 - padding) - 50.0;
     float dist = sdfRoundedBox(shakedPos + shakeNoise(shakedPos, t), size, padding);
     float absDist = abs(dist);
-    if (dist < 0.0 && dist > -25.0) {
-        dist /= -25.0;
-        float fixedDist = pow(dist, 0.5);
-
-        outColor *= max(0.0, 1.0 - fixedDist);
+    if (dist < 0.0 && dist > -50.0) {
+        dist /= -50.0;
+        outColor *= 1.0 - pow(dist, 2.0);
     } else if (dist < 0.0) {
         outColor *= 0.0;
         //        outColor = vec4(0.0, 1.0, 0.0, 1.0);
