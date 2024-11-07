@@ -1,24 +1,24 @@
 package game;
 
 import core.GameRoot;
-import game.windows.BaseWindow;
-import game.windows.mainWindow.MainWindow;
+import game.subWindows.BaseSubWindow;
+import game.subWindows.mainWindow.MainSubWindow;
 
 import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 
-public class WindowManager {
-    public static final ArrayList<BaseWindow> windows = new ArrayList<>();
+public class SubWindowManager {
+    public static final ArrayList<BaseSubWindow> windows = new ArrayList<>();
 
     public static void initialize(final GameRoot root) {
-        windows.add(new MainWindow().initialize(root));
+        windows.add(new MainSubWindow().initialize(root));
 //        windows.add(new MouseWindow().initialize());
     }
 
     public static void frameUpdate(final GameRoot root) {
-        for (final BaseWindow window : windows) {
+        for (final BaseSubWindow window : windows) {
             window.frameUpdate(root);
             glfwSwapBuffers(window.windowID);
         }
@@ -26,7 +26,7 @@ public class WindowManager {
     }
 
     public static void cleanUp() {
-        for (final BaseWindow window : windows) {
+        for (final BaseSubWindow window : windows) {
             window.closeWindow();
         }
     }
@@ -34,6 +34,6 @@ public class WindowManager {
     /////////////////////////////////////////////////////////////////////////////////
 
     public static boolean shouldClose() {
-        return windows.stream().allMatch(BaseWindow::shouldClose);
+        return windows.stream().allMatch(BaseSubWindow::shouldClose);
     }
 }

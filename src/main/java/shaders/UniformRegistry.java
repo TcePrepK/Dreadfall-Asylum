@@ -4,6 +4,7 @@ import toolbox.Vector2D;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
 import toolbox.Logger;
+import toolbox.Vector2DI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ public class UniformRegistry {
         UniformRegistry.addFunction(Float.class, (UniformRunnable<Float>) GL20::glUniform1f);
         UniformRegistry.addFunction(Double.class, (UniformRunnable<Double>) (location, v) -> glUniform1f(location, v.floatValue()));
         UniformRegistry.addFunction(Vector2D.class, (UniformRunnable<Vector2D>) (location, v) -> glUniform2f(location, v.x, v.y));
+        UniformRegistry.addFunction(Vector2DI.class, (UniformRunnable<Vector2DI>) (location, v) -> glUniform2i(location, v.x, v.y));
         UniformRegistry.addFunction(Matrix4f.class, (UniformRunnable<Matrix4f>) (location, v) -> glUniformMatrix4fv(location, false, v.get(new float[16])));
     }
 

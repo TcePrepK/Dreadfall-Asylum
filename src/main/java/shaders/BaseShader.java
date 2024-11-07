@@ -187,8 +187,6 @@ public abstract class BaseShader {
                 final Matcher includeMatch = INCLUDE_REGEX.matcher(line);
                 final Matcher toggleMatch = TOGGLE_IGNORE_REGEX.matcher(line);
                 if (includeMatch.find()) {
-                    if (includeMatch.group(2) != null) continue;
-
                     final String importName = includeMatch.group(1);
                     final String importPath = Path.of(path, "..", importName).toString();
 

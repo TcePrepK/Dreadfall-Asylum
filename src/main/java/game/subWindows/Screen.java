@@ -1,4 +1,4 @@
-package game.windows;
+package game.subWindows;
 
 import toolbox.Vector2D;
 

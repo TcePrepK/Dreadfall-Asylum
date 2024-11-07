@@ -1,8 +1,8 @@
-package game.windows;
+package game.subWindows;
 
 import core.GameRoot;
 import core.WindowQuad;
-import game.WindowManager;
+import game.SubWindowManager;
 import toolbox.Vector2D;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
@@ -12,7 +12,7 @@ import toolbox.VariableWatcher;
 
 import static org.lwjgl.opengl.GL11.glViewport;
 
-public abstract class BaseWindow {
+public abstract class BaseSubWindow {
     public long windowID;
     protected Vector2D leftTop;
     protected VariableWatcher<Vector2D> size;
@@ -21,26 +21,12 @@ public abstract class BaseWindow {
 
     protected GLCapabilities capabilities;
 
-    public BaseWindow(final String title, final Vector2D center, final Vector2D size) {
+    public BaseSubWindow(final String title, final Vector2D center, final Vector2D size) {
         leftTop = center.sub(size.div(2));
         this.size = new VariableWatcher<>(size);
-
-        GLFW.glfwWindowHint(GLFW.GLFW_TRANSPARENT_FRAMEBUFFER, GLFW.GLFW_TRUE);
-        GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_SOFT_FULLSCREEN, GLFW.GLFW_TRUE);
-        windowID = GLFW.glfwCreateWindow((int) size.x, (int) size.y, title, GLFW.glfwGetPrimaryMonitor(), 0);
-        moveWindow(center);
-
-        GLFW.glfwMakeContextCurrent(windowID);
-        GLFW.glfwShowWindow(windowID);
-        capabilities = GL.createCapabilities();
-
-        windowQuad = new WindowQuad();
-        Keyboard.initializeForWindow(windowID);
     }
 
-    public BaseWindow initialize(final GameRoot root) {
+    public BaseSubWindow initialize(final GameRoot root) {
         return this;
     }
 
@@ -73,7 +59,7 @@ public abstract class BaseWindow {
     }
 
     public void closeWindow() {
-        WindowManager.windows.remove(this);
+        SubWindowManager.windows.remove(this);
         GLFW.glfwDestroyWindow(windowID);
     }
 

@@ -1,4 +1,4 @@
-package game.windows;
+package game.subWindows;
 
 import shaders.BaseShader;
 import toolbox.ShaderManager;

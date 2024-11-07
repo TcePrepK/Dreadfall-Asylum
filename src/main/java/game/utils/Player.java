@@ -1,6 +1,6 @@
 package game.utils;
 
-import game.windows.Screen;
+import game.subWindows.Screen;
 import toolbox.Vector2D;
 import toolbox.Mouse;
 import toolbox.VariableWatcher;

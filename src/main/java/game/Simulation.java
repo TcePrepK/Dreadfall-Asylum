@@ -1,21 +1,20 @@
-package core;
+package game;
 
-import game.WindowManager;
+import core.GameRoot;
+import core.Loader;
 import org.lwjgl.glfw.GLFW;
 import toolbox.ShaderManager;
 import toolbox.Timer;
 
-public class MainSimulation {
+public class Simulation {
     private static final GameRoot root = new GameRoot();
 
     private static final Timer fpsTimer = new Timer();
 
     public static void run() {
-        // Initialize GLFW and create windows/screens
-        GLFW.glfwInit();
+        MainWindow.initialize(root);
 
-        WindowManager.initialize(root);
-        while (!WindowManager.shouldClose()) {
+        while (!MainWindow.shouldClose()) {
             frameUpdate();
         }
     }
@@ -23,7 +22,7 @@ public class MainSimulation {
     private static void frameUpdate() {
         fpsTimer.start();
 
-        WindowManager.frameUpdate(root);
+        MainWindow.frameUpdate(root);
 
         final double deltaTime = fpsTimer.stop();
         root.deltaTime = deltaTime;
@@ -35,7 +34,7 @@ public class MainSimulation {
     public static void cleanUp() {
         Loader.cleanUp();
         ShaderManager.cleanUp();
-        WindowManager.cleanUp();
+        MainWindow.closeWindow();
         GLFW.glfwTerminate();
     }
 }
