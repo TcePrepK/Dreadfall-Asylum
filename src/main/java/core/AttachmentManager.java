@@ -1,4 +1,4 @@
-package toolbox;
+package core;
 
 import core.imageBuffers.ImageBuffer;
 import core.imageBuffers.ImageBuffer2D;

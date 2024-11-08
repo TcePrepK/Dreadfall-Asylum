@@ -1,6 +1,4 @@
-package toolbox;
-
-import core.BaseShader;
+package core;
 
 import java.util.ArrayList;
 
