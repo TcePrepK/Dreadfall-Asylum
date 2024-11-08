@@ -1,4 +1,4 @@
-package shaders;
+package shaderUtils;
 
 public class UniformVariable<T> {
     private final int location;

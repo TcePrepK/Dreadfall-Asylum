@@ -2,7 +2,7 @@ package game;
 
 import game.utils.Player;
 import toolbox.Vector2D;
-import shaders.BaseShader;
+import core.BaseShader;
 
 public class LightingShader extends BaseShader {
     public LightingShader() {

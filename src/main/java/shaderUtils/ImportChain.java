@@ -1,4 +1,4 @@
-package shaders.utils;
+package shaderUtils;
 
 import java.util.ArrayList;
 

@@ -1,10 +1,8 @@
-package game.subWindows.mainWindow;
+package game;
 
 import core.GameRoot;
 import game.subWindows.BaseWindowShader;
-import toolbox.VariableWatcher;
 import toolbox.Vector2D;
-import toolbox.Vector2DI;
 
 public class MainWindowShader extends BaseWindowShader {
     public MainWindowShader() {

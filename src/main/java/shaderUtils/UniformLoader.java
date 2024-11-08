@@ -1,4 +1,4 @@
-package shaders;
+package shaderUtils;
 
 import toolbox.Logger;
 

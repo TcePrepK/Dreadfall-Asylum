@@ -1,4 +1,4 @@
-package shaders;
+package shaderUtils;
 
 import toolbox.Vector2D;
 import org.joml.Matrix4f;

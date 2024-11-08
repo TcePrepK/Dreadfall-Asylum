@@ -1,24 +1,17 @@
 package game;
 
 import core.GameRoot;
+import core.Screen;
 import core.WindowQuad;
-import game.subWindows.BaseSubWindow;
-import game.subWindows.mainWindow.MainWindowShader;
-import org.intellij.lang.annotations.RegExp;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GLCapabilities;
 import toolbox.Keyboard;
-import toolbox.VariableWatcher;
-import toolbox.Vector2D;
 import toolbox.Vector2DI;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class MainWindow {
     public static long windowID;
@@ -30,19 +23,13 @@ public class MainWindow {
     public static void initialize(GameRoot root) {
         GLFW.glfwInit();
 
-        // Get screen resolution
-        final GLFWVidMode vidMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
-        if (vidMode == null) throw new RuntimeException("Could not get video mode");
-        Vector2DI screenResolution = new Vector2DI(vidMode.width(), vidMode.height());
-        System.out.println("Resolution " + screenResolution);
-
         { // Setup window
             GLFW.glfwWindowHint(GLFW.GLFW_TRANSPARENT_FRAMEBUFFER, GLFW.GLFW_TRUE);
             GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
             GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
             GLFW.glfwWindowHint(GLFW.GLFW_SOFT_FULLSCREEN, GLFW.GLFW_TRUE);
 
-            windowID = GLFW.glfwCreateWindow(screenResolution.x, screenResolution.y, "Window 1", GLFW.glfwGetPrimaryMonitor(), 0);
+            windowID = GLFW.glfwCreateWindow(Screen.WIDTH, Screen.HEIGHT, "Window 1", GLFW.glfwGetPrimaryMonitor(), 0);
             if (windowID == 0) {
                 throw new RuntimeException("Failed to create the GLFW window");
             }
@@ -62,7 +49,7 @@ public class MainWindow {
             // Shaders
             mainShader = new MainWindowShader();
             mainShader.initializeAttachments(root);
-            mainShader.loadResolution(screenResolution.toFloat());
+            mainShader.loadResolution(Screen.SIZE);
         }
     }
 

@@ -39,7 +39,8 @@ void main() {
     vec2 centerized = pixel - resolution / 2.0;
 
     // Border and shake
-    outColor.rgb *= hsv2rgb(vec3(pow(noise(uv * 100.0), 2.0) * 0.001, 1.0, 1.0));;
+    float hue = pow(noise(uv * 100.0), 2.0) * 0.001;
+    outColor.rgb *= hsv2rgb(vec3(hue, 1.0, 1.0));;
     vec2 shakedPos = centerized + 5.0 * vec2(shake(t), shake(t + 1.22));
     float padding = 100.0;
     vec2 size = (resolution / 2.0 - padding) - 50.0;

@@ -1,6 +1,6 @@
 package game.subWindows;
 
-import shaders.BaseShader;
+import core.BaseShader;
 import toolbox.ShaderManager;
 
 public abstract class BaseWindowShader extends BaseShader {

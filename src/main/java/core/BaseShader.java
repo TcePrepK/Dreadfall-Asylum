@@ -1,7 +1,9 @@
-package shaders;
+package core;
 
-import shaders.utils.ImportChain;
-import shaders.utils.LineData;
+import shaderUtils.ImportChain;
+import shaderUtils.LineData;
+import shaderUtils.UniformLoader;
+import shaderUtils.UniformVariable;
 import toolbox.VariableWatcher;
 
 import java.io.BufferedReader;
@@ -32,19 +34,51 @@ public abstract class BaseShader {
 
     private final int vertexShader;
     private final int fragmentShader;
+    private final int computeShader;
 
     private final String vertexFile;
     private final String fragmentFile;
+    private final String computeFile;
+
     private final UniformLoader uniformLoader;
+
+    public BaseShader(final String shaderName, final String computeFile) {
+        this.shaderName = shaderName;
+        this.vertexFile = null;
+        this.fragmentFile = null;
+        this.computeFile = computeFile;
+
+        programID = glCreateProgram();
+
+        vertexShader = -1;
+        fragmentShader = -1;
+        computeShader = loadShaderFromFile(GL_COMPUTE_SHADER, this.computeFile);
+
+        glAttachShader(programID, computeShader);
+        glLinkProgram(programID);
+        glValidateProgram(programID);
+
+        final int linkStatus = glGetProgrami(programID, GL_LINK_STATUS);
+        if (linkStatus == GL_FALSE) {
+            System.err.println("Shader program linking failed: " + shaderName);
+            System.err.println(glGetProgramInfoLog(programID));
+        }
+
+        uniformLoader = new UniformLoader(programID);
+        initializeUniforms(uniformNames);
+    }
 
     public BaseShader(final String shaderName, final String vertexFile, final String fragmentFile) {
         this.shaderName = shaderName;
         this.vertexFile = vertexFile;
         this.fragmentFile = fragmentFile;
+        this.computeFile = null;
 
         programID = glCreateProgram();
+
         vertexShader = loadShaderFromFile(GL_VERTEX_SHADER, this.vertexFile);
         fragmentShader = loadShaderFromFile(GL_FRAGMENT_SHADER, this.fragmentFile);
+        computeShader = -1;
 
         glAttachShader(programID, vertexShader);
         glAttachShader(programID, fragmentShader);
@@ -118,10 +152,19 @@ public abstract class BaseShader {
     public void cleanUp() {
         stop();
 
-        glDetachShader(programID, vertexShader);
-        glDetachShader(programID, fragmentShader);
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+        if (vertexShader != -1) {
+            glDetachShader(programID, vertexShader);
+            glDeleteShader(vertexShader);
+        }
+        if (fragmentShader != -1) {
+            glDetachShader(programID, fragmentShader);
+            glDeleteShader(fragmentShader);
+        }
+        if (computeShader != -1) {
+            glDetachShader(programID, computeShader);
+            glDeleteShader(computeShader);
+        }
+
         glDeleteProgram(programID);
     }
 
