@@ -23,44 +23,28 @@ public abstract class BaseShader {
     private static final Pattern INCLUDE_REGEX = Pattern.compile("^#include\\s+\"([^>]+)\"");
     private static final Pattern TOGGLE_IGNORE_REGEX = Pattern.compile("^/\\*\\s*toggle-import\\s*\\*/");
     private static final Pattern UNIFORM_REGEX = Pattern.compile("^uniform\\s+(\\w+)\\s+(\\w+)\\s*;");
-    private final String shaderName;
 
-    protected final int programID;
+    protected int programID;
     private boolean programEnabled = false;
 
     private final ArrayList<String> uniformNames = new ArrayList<>();
     private final HashMap<String, UniformVariable> allUniforms = new HashMap<>();
     private final HashMap<String, Object> uniformQueue = new HashMap<>();
 
-    private final int vertexShader;
-    private final int fragmentShader;
-    private final int computeShader;
+    private UniformLoader uniformLoader;
 
-    private final String vertexFile;
-    private final String fragmentFile;
-    private final String computeFile;
-
-    private final UniformLoader uniformLoader;
-
-    public BaseShader(final String shaderName, final String computeFile) {
-        this.shaderName = shaderName;
-        this.vertexFile = null;
-        this.fragmentFile = null;
-        this.computeFile = computeFile;
-
+    protected void initialize() {
         programID = glCreateProgram();
 
-        vertexShader = -1;
-        fragmentShader = -1;
-        computeShader = loadShaderFromFile(GL_COMPUTE_SHADER, this.computeFile);
+        readShaderFiles();
+        attachShaders();
 
-        glAttachShader(programID, computeShader);
         glLinkProgram(programID);
         glValidateProgram(programID);
 
         final int linkStatus = glGetProgrami(programID, GL_LINK_STATUS);
         if (linkStatus == GL_FALSE) {
-            System.err.println("Shader program linking failed: " + shaderName);
+            System.err.println("Shader program linking failed");
             System.err.println(glGetProgramInfoLog(programID));
         }
 
@@ -68,32 +52,8 @@ public abstract class BaseShader {
         initializeUniforms(uniformNames);
     }
 
-    public BaseShader(final String shaderName, final String vertexFile, final String fragmentFile) {
-        this.shaderName = shaderName;
-        this.vertexFile = vertexFile;
-        this.fragmentFile = fragmentFile;
-        this.computeFile = null;
-
-        programID = glCreateProgram();
-
-        vertexShader = loadShaderFromFile(GL_VERTEX_SHADER, this.vertexFile);
-        fragmentShader = loadShaderFromFile(GL_FRAGMENT_SHADER, this.fragmentFile);
-        computeShader = -1;
-
-        glAttachShader(programID, vertexShader);
-        glAttachShader(programID, fragmentShader);
-        glLinkProgram(programID);
-        glValidateProgram(programID);
-
-        final int linkStatus = glGetProgrami(programID, GL_LINK_STATUS);
-        if (linkStatus == GL_FALSE) {
-            System.err.println("Shader program linking failed: " + shaderName);
-            System.err.println(glGetProgramInfoLog(programID));
-        }
-
-        uniformLoader = new UniformLoader(programID);
-        initializeUniforms(uniformNames);
-    }
+    protected abstract void readShaderFiles();
+    protected abstract void attachShaders();
 
     public void start() {
         glUseProgram(programID);
@@ -149,26 +109,10 @@ public abstract class BaseShader {
         }
     }
 
-    public void cleanUp() {
-        stop();
+    public abstract void cleanUp();
 
-        if (vertexShader != -1) {
-            glDetachShader(programID, vertexShader);
-            glDeleteShader(vertexShader);
-        }
-        if (fragmentShader != -1) {
-            glDetachShader(programID, fragmentShader);
-            glDeleteShader(fragmentShader);
-        }
-        if (computeShader != -1) {
-            glDetachShader(programID, computeShader);
-            glDeleteShader(computeShader);
-        }
-
-        glDeleteProgram(programID);
-    }
-
-    private int loadShaderFromFile(final int type, final String file) {
+    int loadShaderFromFile(final int type, final String file) {
+        System.out.println("Loading shader: " + file);
         final int shaderID = glCreateShader(type);
 
         final HashSet<String> includeList = new HashSet<>();

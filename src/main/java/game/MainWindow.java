@@ -4,10 +4,8 @@ import core.GameRoot;
 import core.Screen;
 import core.WindowQuad;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
 import toolbox.Keyboard;
-import toolbox.Vector2DI;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -48,7 +46,7 @@ public class MainWindow {
 
             // Shaders
             mainShader = new MainWindowShader();
-            mainShader.initializeAttachments(root);
+            mainShader.setupAttachments(root);
             mainShader.loadResolution(Screen.SIZE);
         }
     }

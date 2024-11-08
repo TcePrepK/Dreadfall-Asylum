@@ -1,15 +1,18 @@
 package game;
 
 import core.GameRoot;
-import game.subWindows.BaseWindowShader;
+import core.PixelShader;
 import toolbox.Vector2D;
 
-public class MainWindowShader extends BaseWindowShader {
+public class MainWindowShader extends PixelShader {
+    public static String VERTEX_FILE = "mainWindow/main.vert";
+    public static String FRAGMENT_FILE = "mainWindow/main.frag";
+
     public MainWindowShader() {
-        super("mainWindow");
+        super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
-    public void initializeAttachments(GameRoot root) {
+    public void setupAttachments(GameRoot root) {
         attachWatcher("time", root.time);
     }
 

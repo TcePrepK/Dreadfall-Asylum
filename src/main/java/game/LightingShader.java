@@ -1,12 +1,16 @@
 package game;
 
+import core.PixelShader;
 import game.utils.Player;
 import toolbox.Vector2D;
 import core.BaseShader;
 
-public class LightingShader extends BaseShader {
+public class LightingShader extends PixelShader {
+    public static final String VERTEX_FILE = "lighting/main.vert";
+    public static final String FRAGMENT_FILE = "lighting/main.frag";
+
     public LightingShader() {
-        super("LightingShader", "lighting/main.vert", "lighting/main.frag");
+        super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
     public void loadWindowLeftBottom(final Vector2D lb) {
