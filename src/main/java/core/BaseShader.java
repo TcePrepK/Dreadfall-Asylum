@@ -4,6 +4,7 @@ import shaderUtils.ImportChain;
 import shaderUtils.LineData;
 import shaderUtils.UniformLoader;
 import shaderUtils.UniformVariable;
+import toolbox.CustomError;
 import toolbox.VariableWatcher;
 
 import java.io.BufferedReader;
@@ -112,7 +113,27 @@ public abstract class BaseShader {
     public abstract void cleanUp();
 
     int loadShaderFromFile(final int type, final String file) {
-        System.out.println("Loading shader: " + file);
+        System.out.print(" ↳ Loading ");
+        switch (type) {
+            case GL_VERTEX_SHADER:
+                System.out.print("Vertex");
+                break;
+            case GL_FRAGMENT_SHADER:
+                System.out.print("Fragment");
+                break;
+            case GL_GEOMETRY_SHADER:
+                System.out.print("Geometry");
+                break;
+            case GL_COMPUTE_SHADER:
+                System.out.print("Compute");
+                break;
+            default:
+                System.out.print("Unknown");
+
+        }
+        System.out.print(" Shader: " + file);
+
+//        System.out.println(" ↳ Loading shader: " + file);
         final int shaderID = glCreateShader(type);
 
         final HashSet<String> includeList = new HashSet<>();
@@ -132,28 +153,36 @@ public abstract class BaseShader {
 
         final int compileStatus = glGetShaderi(shaderID, GL_COMPILE_STATUS);
         if (compileStatus == GL_FALSE) {
+            System.out.println("❌");
             final String info = glGetShaderInfoLog(shaderID, 1024);
             glDeleteShader(shaderID);
 
-            if (!info.isEmpty()) {
-                final String[] lines = info.split("\n");
-                String prevFile = "";
-                for (final String line : lines) {
-                    final boolean errorMessage = line.startsWith("ERROR: ");
-                    if (!errorMessage) continue;
-                    final String[] parts = line.split("\\s*:\\s*");
-                    final int lineNumber = Integer.parseInt(parts[2]);
-                    final String fileName = lineData.get(lineNumber).file();
+            System.out.println("❌ Shader initialization failed! ❌");
+            System.out.println();
+            if (info.isEmpty()) return shaderID;
 
-                    String output = "(" + lineNumber + ") > " + parts[4] + "(" + parts[3].replace("'", "") + ")";
-                    if (!fileName.equals(prevFile)) {
-                        output = "<" + fileName + ">\n" + output;
-                        prevFile = fileName;
-                    }
+            final String[] lines = info.split("\n");
+            String prevFile = "";
+            for (final String line : lines) {
+                final boolean errorMessage = line.startsWith("ERROR: ");
+                if (!errorMessage) continue;
+                final String[] parts = line.split("\\s*:\\s*");
+                final int lineNumber = Integer.parseInt(parts[2]);
+                final String fileName = lineData.get(lineNumber).file();
+                final int actualLineNumber = lineData.get(lineNumber).line();
 
-                    System.out.println(output);
+                String output = "(" + actualLineNumber + ") > " + parts[4] + "(" + parts[3].replace("'", "") + ")";
+                if (!fileName.equals(prevFile)) {
+                    output = "<" + fileName + ">\n" + output;
+                    prevFile = fileName;
                 }
+
+                System.err.println(output);
             }
+
+            throw new CustomError("Shader Initialization Error");
+        } else {
+            System.out.println("✅");
         }
 
         return shaderID;

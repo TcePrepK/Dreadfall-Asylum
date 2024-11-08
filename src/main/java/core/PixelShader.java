@@ -9,10 +9,15 @@ public class PixelShader extends BaseShader {
     private int vertexShader;
     private int fragmentShader;
 
-    public PixelShader(String vertexFile, String fragmentFile) {
+    public PixelShader(String shaderName, String vertexFile, String fragmentFile) {
         this.vertexFile = vertexFile;
         this.fragmentFile = fragmentFile;
+
+        System.out.println("----------------------------------------------------");
+        System.out.println("Initializing Pixel-Shader (" + shaderName + ")");
         initialize();
+        System.out.println("✅ Initialization Complete ✅");
+        System.out.println("----------------------------------------------------");
     }
 
     @Override

@@ -34,7 +34,7 @@ void main() {
 
     outColor = vec4(1.0);
 
-    float t = time * 10.0;
+    float t = time * 10;
 
     vec2 centerized = pixel - resolution / 2.0;
 

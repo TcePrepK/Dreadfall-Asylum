@@ -1,7 +1,5 @@
 package core;
 
-import toolbox.AttachmentManager;
-
 import static org.lwjgl.opengl.GL20.glDrawBuffers;
 import static org.lwjgl.opengl.GL30.*;
 

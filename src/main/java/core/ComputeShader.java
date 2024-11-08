@@ -9,9 +9,14 @@ public class ComputeShader extends BaseShader {
 
     private final String computeFile;
 
-    public ComputeShader(final String computeFile) {
-        super();
+    public ComputeShader(final String shaderName, final String computeFile) {
         this.computeFile = computeFile;
+
+        System.out.println("----------------------------------------------------");
+        System.out.println("Initializing Compute-Shader (" + shaderName + ")");
+        initialize();
+        System.out.println("✅ Initialization Complete ✅");
+        System.out.println("----------------------------------------------------");
     }
 
     @Override

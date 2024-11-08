@@ -9,7 +9,7 @@ public class MainWindowShader extends PixelShader {
     public static String FRAGMENT_FILE = "mainWindow/main.frag";
 
     public MainWindowShader() {
-        super(VERTEX_FILE, FRAGMENT_FILE);
+        super("Main Window", VERTEX_FILE, FRAGMENT_FILE);
     }
 
     public void setupAttachments(GameRoot root) {

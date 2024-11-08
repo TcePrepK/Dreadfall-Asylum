@@ -3,7 +3,7 @@ package game;
 import core.GameRoot;
 import core.Loader;
 import org.lwjgl.glfw.GLFW;
-import toolbox.ShaderManager;
+import core.ShaderManager;
 import toolbox.Timer;
 
 public class Simulation {

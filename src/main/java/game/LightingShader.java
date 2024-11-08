@@ -10,7 +10,7 @@ public class LightingShader extends PixelShader {
     public static final String FRAGMENT_FILE = "lighting/main.frag";
 
     public LightingShader() {
-        super(VERTEX_FILE, FRAGMENT_FILE);
+        super("Lighting Shader", VERTEX_FILE, FRAGMENT_FILE);
     }
 
     public void loadWindowLeftBottom(final Vector2D lb) {

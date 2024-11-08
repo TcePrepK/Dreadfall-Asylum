@@ -1,6 +1,6 @@
 package core.imageBuffers;
 
-import toolbox.TextureManager;
+import core.TextureManager;
 
 import java.nio.ByteBuffer;
 
